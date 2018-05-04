@@ -5,6 +5,11 @@ describe('User visits landing page', () => {
     it('render the page without videos', () => {
       browser.url('/');
       assert.equal(browser.getText('#videos-container'), '');
-    })
+    });
+    it('navigates to the create page', () => {
+      browser.url('/');
+      browser.click('a[href="videos/create.html"]');
+    });
   });
+
 });
