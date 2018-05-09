@@ -8,7 +8,7 @@ describe('User visits landing page', () => {
     });
     it('navigates to the create page', () => {
       browser.url('/');
-      browser.click('a[href="videos/create.html"]');
+      browser.click('a[href="videos/create"]');
     });
   });
 
