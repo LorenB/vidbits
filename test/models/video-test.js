@@ -1,24 +1,11 @@
 const Video = require('../../models/video');
 const {assert} = require('chai');
-const {mongoose, databaseUrl, options} = require('../../database');
 
-async function connectDatabase() {
-  await mongoose.connect(databaseUrl, options);
-  await mongoose.connection.db.dropDatabase();
-}
-
-async function disconnectDatabase() {
-  await mongoose.disconnect();
-}
+const {connectDatabase, disconnectDatabase} = require('../database-utilities');
 
 describe('Model: Video', () => {
-  beforeEach( () => {
-    connectDatabase();
-  });
-
-  afterEach( () => {
-    disconnectDatabase();
-  });
+  beforeEach(connectDatabase);
+  afterEach(disconnectDatabase);
 
   describe('#title', () => {
     it('is a string', async () => {
