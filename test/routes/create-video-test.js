@@ -28,6 +28,8 @@ describe('Server path: /videos', () => {
       const createdVideo = await Video.findOne({});
       assert.equal(createdVideo.title, videoTitle);
       assert.equal(createdVideo.description, videoDescription);
+      assert.include(response.text, videoTitle);
+      assert.include(response.text, videoDescription);
     });
   });
 });
