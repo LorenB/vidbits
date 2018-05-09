@@ -8,7 +8,7 @@ router.post('/videos', async (req, res) => {
 
   res
     .status(201)
-    .send(req.body);
+    .render('videos/show', req.body);
 });
 
 module.exports = router;
