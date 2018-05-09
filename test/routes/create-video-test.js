@@ -17,13 +17,17 @@ describe('Server path: /videos', () => {
     });
 
     it('creates a video and persists it', async () => {
+      const videoTitle = 'Some Video';
+      const videoDescription = 'A video about things and stuff.'
       const response = await request(app)
         .post('/videos')
         .type('form')
-        .send({title: 'Some Video', desciption: 'A video about things and stuff.'});
+        .send({title: videoTitle, description: videoDescription});
       assert.equal(response.status, 201);
       // TODO: confirm data is actually persisted
       const createdVideo = await Video.findOne({});
+      assert.equal(createdVideo.title, videoTitle);
+      assert.equal(createdVideo.description, videoDescription);
     });
   });
 });
