@@ -3,7 +3,7 @@ const {assert} = require('chai');
 describe('User visits create page', () => {
   describe('adds video', () => {
     it('renders video on the landing page', () => {
-      browser.url('/videos/create.html');
+      browser.url('/videos/create');
       const videoTitle = 'Best video ever!';
       const videoDescription = 'Soooo good.';
       browser.setValue('#title-input', videoTitle);
