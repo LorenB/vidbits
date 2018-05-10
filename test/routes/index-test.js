@@ -17,7 +17,14 @@ describe('Server path: /', () => {
       const video = await Video.create({title, description});
       const response = await request(app)
         .get(`/`);
-      const selectedElements = jsdom(response.text).querySelectorAll('.video-card');
+
+      assert.equal(response.status, 302);
+      assert.equal(response.headers.location, '/videos');
+
+      const redirectResponse = await request(app)
+        .get(response.headers.location);
+
+      const selectedElements = jsdom(redirectResponse.text).querySelectorAll('.video-card');
       const firstElementText = selectedElements[0].textContent;
 
       assert.strictEqual(selectedElements.length, 1);
