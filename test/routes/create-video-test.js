@@ -31,5 +31,17 @@ describe('Server path: /videos', () => {
       assert.include(response.text, videoTitle);
       assert.include(response.text, videoDescription);
     });
+
+    it('only save a video when a title is provided', async () => {
+      const videoDescription = 'A video about things and stuff.'
+      const response = await request(app)
+        .post('/videos')
+        .type('form')
+        .send({description: videoDescription});
+
+      assert.ok(response.status >= 400 && response.status < 500);
+      const createdVideo = await Video.findOne({});
+      assert.notOk(createdVideo);
+    });
   });
 });
