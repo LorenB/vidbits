@@ -17,11 +17,17 @@ router.get('/videos/create', async (req, res) => {
 
 router.post('/videos', async (req, res) => {
   const {title, description} = req.body;
-  await Video.create({title, description});
+  if(typeof title !== 'undefined') {
+    await Video.create({title, description});
+    res
+      .status(201)
+      .render('videos/show', req.body);
+  } else {
+    res
+      .status(400)
+      .send();
+  }
 
-  res
-    .status(201)
-    .render('videos/show', req.body);
 });
 
 module.exports = router;
