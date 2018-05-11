@@ -41,7 +41,8 @@ describe('Server path: /videos', () => {
         .send({description: videoDescription});
 
       assert.ok(response.status >= 400 && response.status < 500);
-      assert.include(response.text, 'could not find title input');
+      const errorElem = jsdom(response.text).querySelector('.error-message');
+      assert.include(errorElem.textContent, 'could not find title input');
       const selectedElements = jsdom(response.text).querySelectorAll('.video-card');
       assert.strictEqual(selectedElements.length, 0);
       const createdVideo = await Video.findOne({});
