@@ -10,9 +10,12 @@
     <h2>Save a video</h2>
     <form class="input-form" action="../videos" method="post">
       <label for="title-input">Title</label>
-      <input type="text" name="title" id="title-input">
+      <input type="text" name="title" id="title-input" value="{{title}}">
+      {{#if error}}
+      <span class="error-message">{{error}}</span><br>
+      {{/if}}
       <label for="description-input">Description</label>
-      <input type="text" name="description" id="description-input"><br>
+      <input type="text" name="description" id="description-input" value="{{description}}"><br>
       <button type="submit" id="submit-button">
         <p>Submit</p>
       </button>

@@ -17,15 +17,16 @@ router.get('/videos/create', async (req, res) => {
 
 router.post('/videos', async (req, res) => {
   const {title, description} = req.body;
-  if(typeof title !== 'undefined') {
+  if(!!title && title.length > 0) {
     await Video.create({title, description});
     res
       .status(201)
-      .render('videos/show', req.body);
+      .render('videos/show', {title, description});
   } else {
+
     res
       .status(400)
-      .render('videos/show', {error: 'could not find title input'});
+      .render('videos/create', {title, description, error: 'could not find title input'});
   }
 
 });
