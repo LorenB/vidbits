@@ -1,5 +1,6 @@
 const {assert} = require('chai');
 const request = require('supertest');
+const {jsdom} = require('jsdom');
 const app = require('../../app');
 const {mongoose, databaseUrl, options} = require('../../database');
 
@@ -40,6 +41,9 @@ describe('Server path: /videos', () => {
         .send({description: videoDescription});
 
       assert.ok(response.status >= 400 && response.status < 500);
+      assert.include(response.text, 'could not find title input');
+      const selectedElements = jsdom(response.text).querySelectorAll('.video-card');
+      assert.strictEqual(selectedElements.length, 0);
       const createdVideo = await Video.findOne({});
       assert.notOk(createdVideo);
     });
