@@ -45,6 +45,8 @@ describe('Server path: /videos', () => {
       assert.include(errorElem.textContent, 'could not find title input');
       const selectedElements = jsdom(response.text).querySelectorAll('.video-card');
       assert.strictEqual(selectedElements.length, 0);
+      const descriptionElem = jsdom(response.text).querySelector('#description-input');
+      assert.equal(descriptionElem.value, videoDescription);
       const createdVideo = await Video.findOne({});
       assert.notOk(createdVideo);
     });
