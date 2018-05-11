@@ -7,7 +7,7 @@ describe('User visits create page', () => {
       const videoTitle = 'Best video ever!';
       const videoDescription = 'Soooo good.';
       browser.setValue('#title-input', videoTitle);
-      browser.setValue('#desciption-input', videoDescription);
+      browser.setValue('#description-input', videoDescription);
       browser.click('#submit-button');
       assert.include(browser.getText('body'), videoTitle);
       assert.include(browser.getText('body'), videoDescription);
