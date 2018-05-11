@@ -7,6 +7,15 @@
     <link rel='stylesheet' href='stylesheets/style.css'>
   </head>
   <body>
-    <div>Save a video</div>
+    <h2>Save a video</h2>
+    <form class="input-form" action="../videos" method="post">
+      <label for="title-input">Title</label>
+      <input type="text" name="title" id="title-input">
+      <label for="description-input">Description</label>
+      <input type="text" name="description" id="description-input"><br>
+      <button type="submit" id="submit-button">
+        <p>Submit</p>
+      </button>
+    </form>
   </body>
 </html>
