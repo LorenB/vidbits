@@ -25,7 +25,7 @@ router.post('/videos', async (req, res) => {
   } else {
     res
       .status(400)
-      .send('could not find title input');
+      .render('videos/show', {error: 'could not find title input'});
   }
 
 });
