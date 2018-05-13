@@ -23,9 +23,9 @@ router.get('/videos/:videoId', async (req, res) => {
 });
 
 router.post('/videos', async (req, res) => {
-  const {title, description} = req.body;
+  const {title, description, url} = req.body;
   if(!!title && title.length > 0) {
-    const video = await Video.create({title, description});
+    const video = await Video.create({title, description, url});
     res
       .status(201)
       .render('videos/show', {video});

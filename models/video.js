@@ -4,7 +4,8 @@ const Video = mongoose.model(
   'Video',
   mongoose.Schema({
     title: String,
-    description: String
+    description: String,
+    url: String
   })
 );
 
