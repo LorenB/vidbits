@@ -12,9 +12,14 @@ describe('Server path: /', () => {
 
   describe('GET', () => {
     it('shows list of videos when videos have already been saved', async () => {
-      const title = 'Video A';
-      const description = 'An exhuastive history of the amaziong letter A.'
-      const video = await Video.create({title, description});
+      const videoToCreate = {
+        title: 'Video A',
+        description: 'An exhuastive history of the amaziong letter A.',
+        url: 'http://example.com'
+      };
+
+
+      const video = await Video.create({title: videoToCreate.title, description: videoToCreate.description, url: videoToCreate.url});
       const response = await request(app)
         .get(`/`);
 
@@ -26,9 +31,11 @@ describe('Server path: /', () => {
 
       const selectedElements = jsdom(redirectResponse.text).querySelectorAll('.video-card');
       const firstElementText = selectedElements[0].textContent;
-
       assert.strictEqual(selectedElements.length, 1);
-      assert.include(firstElementText, title);
+      assert.include(firstElementText, videoToCreate.title);
+
+      const videoIframeSrc = jsdom(redirectResponse.text).querySelector('iframe').getAttribute('src');
+      assert.equal(videoIframeSrc, video.url);
     });
   });
 });

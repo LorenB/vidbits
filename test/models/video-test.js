@@ -16,6 +16,18 @@ describe('Model: Video', () => {
       assert.strictEqual(video.title, titleInvalid.toString() );
     });
   });
+
+  describe('#url', () => {
+    it('is a string', async () => {
+      const urlInvalid = 0;
+      const someValidTitle = 'I am valid';
+      const video = new Video({
+        title: someValidTitle,
+        url: urlInvalid
+      });
+      assert.strictEqual(video.url, urlInvalid.toString() );
+    });
+  });
 });
 
 module.exports = {
