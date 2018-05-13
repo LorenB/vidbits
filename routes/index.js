@@ -25,10 +25,10 @@ router.get('/videos/:videoId', async (req, res) => {
 router.post('/videos', async (req, res) => {
   const {title, description} = req.body;
   if(!!title && title.length > 0) {
-    await Video.create({title, description});
+    const video = await Video.create({title, description});
     res
       .status(201)
-      .render('videos/show', {video: {title, description}});
+      .render('videos/show', {video});
   } else {
 
     res
