@@ -1,4 +1,6 @@
-<div>
-  <span>Title: {{title}}</span>
-  <span>Description: {{description}}</span>
+{{#with video as |video|}}
+<div class='single-video-container'>
+  <span class='single-video-title'>Title: {{video.title}}</span><br>
+  <span class='single-video-description'>Description: {{video.description}}</span>
 </div>
+{{/with}}

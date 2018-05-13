@@ -15,13 +15,20 @@ router.get('/videos/create', async (req, res) => {
   res.render('videos/create');
 });
 
+router.get('/videos/:videoId', async (req, res) => {
+  const video = await Video.findById(req.params.videoId);
+  res
+    .status(201)
+    .render('videos/show', {video} );
+});
+
 router.post('/videos', async (req, res) => {
   const {title, description} = req.body;
   if(!!title && title.length > 0) {
     await Video.create({title, description});
     res
       .status(201)
-      .render('videos/show', {title, description});
+      .render('videos/show', {video: {title, description}});
   } else {
 
     res
