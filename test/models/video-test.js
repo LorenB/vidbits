@@ -15,6 +15,11 @@ describe('Model: Video', () => {
       });
       assert.strictEqual(video.title, titleInvalid.toString() );
     });
+    it('is required', async () => {
+      const video = await new Video({url: 'http://example.com'});
+      const error = video.validateSync();
+      assert.equal(error.errors.title.message, 'Path `title` is required.');
+    });
   });
 
   describe('#url', () => {
