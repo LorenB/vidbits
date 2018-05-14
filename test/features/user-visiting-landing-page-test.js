@@ -18,6 +18,7 @@ describe('User visits landing page', () => {
       browser.click('a[href="videos/create"]');
     });
   });
+
   describe('after a vidoe(s) have been uploaded', () => {
     beforeEach(connectDatabase);
     afterEach(disconnectDatabase);
@@ -33,6 +34,19 @@ describe('User visits landing page', () => {
       assert.include(videosContainer, title);
       const titleLink = browser.getText(`iframe[src="${url}"]`);
       assert.ok(titleLink !== null);
+    });
+
+    it('User visiting landing page with an existing video can navigate to a video', async () => {
+
+      const title = 'Some title';
+      const description = 'Some description';
+      const url = generateRandomUrl('example.com');
+      const video = await Video.create({title, description, url});
+      browser.url('/videos');
+      const linkElems = browser.elements(`a`);
+      await browser.click(`a[href="videos/${video._id}"]`);
+      const titleElem = await browser.getText('.single-video-title');
+      assert.include(JSON.stringify(titleElem), title);
     });
   });
 });
