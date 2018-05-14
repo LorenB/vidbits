@@ -37,7 +37,6 @@ describe('User visits landing page', () => {
     });
 
     it('User visiting landing page with an existing video can navigate to a video', async () => {
-
       const title = 'Some title';
       const description = 'Some description';
       const url = generateRandomUrl('example.com');
