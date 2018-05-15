@@ -8,7 +8,10 @@
     <p class='single-video-description'>Description: {{video.description}}</p>
   </div>
   <div class="video-url">
-    <p class='single-video-url'>Description: {{video.url}}</p>
+    <p class='single-video-url'>Url: {{video.url}}</p>
   </div>
 </div>
+<form action="/videos/{{video._id}}/edit">
+    <input id="edit" type="submit" value="Edit" />
+</form>
 {{/with}}
