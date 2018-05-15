@@ -33,9 +33,15 @@ router.post('/videos', async (req, res) => {
       .status(201)
       .render('videos/show', {video});
   } else {
-    if(!!error && !!error.errors && !!error.errors.title) {
-      errorMessage = 'could not find title input'
+    if(!!error && !!error.errors) {
+      if(!!error.errors.title) {
+        errorMessage = 'could not find title input';
+      }
+      if(!!error.errors.url) {
+        errorMessage = 'a URL is required';
+      }
     }
+
     res
       .status(400)
       .render('videos/create', {title, description, url, error: errorMessage || 'could not save video'});
