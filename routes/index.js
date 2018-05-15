@@ -23,10 +23,14 @@ router.get('/videos/:videoId', async (req, res) => {
 });
 
 router.post('/videos', async (req, res) => {
-  const {title, description, url} = req.body;
-  const video = new Video({title, description, url});
+  // const {title, description, url} = req.body;
+  const video = new Video({
+    title: req.body.title,
+    description: req.body.description,
+    url: req.body.url
+  });
   const error = video.validateSync();
-  let errorMessage;
+  let errorMessage = 'could not save video';
   if(!error) {
     await video.save();
     res
@@ -44,7 +48,12 @@ router.post('/videos', async (req, res) => {
 
     res
       .status(400)
-      .render('videos/create', {title, description, url, error: errorMessage || 'could not save video'});
+      .render('videos/create', {
+        title: req.body.title,
+        description: req.body.description,
+        url: req.body.url,
+        error: errorMessage
+      });
   }
 
 });
