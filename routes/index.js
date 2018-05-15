@@ -23,7 +23,6 @@ router.get('/videos/:videoId', async (req, res) => {
 });
 
 router.post('/videos', async (req, res) => {
-  // const {title, description, url} = req.body;
   const video = new Video({
     title: req.body.title,
     description: req.body.description,
@@ -49,11 +48,13 @@ router.post('/videos', async (req, res) => {
     res
       .status(400)
       .render('videos/create', {
-        title: req.body.title,
-        description: req.body.description,
-        url: req.body.url,
-        error: errorMessage
-      });
+        video: {
+          title: req.body.title,
+          description: req.body.description,
+          url: req.body.url,
+          error: errorMessage
+        }
+    });
   }
 
 });
