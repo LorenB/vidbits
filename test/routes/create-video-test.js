@@ -55,5 +55,27 @@ describe('Server path: /videos', () => {
       const createdVideo = await Video.findOne({});
       assert.notOk(createdVideo);
     });
+
+    it('only save a video when a url is provided', async () => {
+      const videoTitle = 'Some title';
+      const videoDescription = 'A video about things and stuff.';
+      const response = await request(app)
+        .post('/videos')
+        .type('form')
+        .send({description: videoDescription, title: videoTitle});
+
+      assert.ok(response.status >= 400 && response.status < 500);
+      const errorElem = jsdom(response.text).querySelector('.error-message');
+      assert.include(errorElem.textContent, 'a URL is required');
+      const selectedElements = jsdom(response.text).querySelectorAll('.video-card');
+      assert.strictEqual(selectedElements.length, 0);
+      const descriptionElem = jsdom(response.text).querySelector('#description-input');
+      assert.equal(descriptionElem.value, videoDescription);
+      const titleElem = jsdom(response.text).querySelector('#title-input');
+      assert.equal(titleElem.value, videoTitle);
+
+      const createdVideo = await Video.findOne({});
+      assert.notOk(createdVideo);
+    });
   });
 });
