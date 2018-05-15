@@ -38,7 +38,7 @@ router.post('/videos', async (req, res) => {
     }
     res
       .status(400)
-      .render('videos/create', {title, description, error: errorMessage || 'could not save video'});
+      .render('videos/create', {title, description, url, error: errorMessage || 'could not save video'});
   }
 
 });
