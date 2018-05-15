@@ -24,16 +24,21 @@ router.get('/videos/:videoId', async (req, res) => {
 
 router.post('/videos', async (req, res) => {
   const {title, description, url} = req.body;
-  if(!!title && title.length > 0) {
-    const video = await Video.create({title, description, url});
+  const video = new Video({title, description, url});
+  const error = video.validateSync();
+  let errorMessage;
+  if(!error) {
+    await video.save();
     res
       .status(201)
       .render('videos/show', {video});
   } else {
-
+    if(!!error && !!error.errors && !!error.errors.title) {
+      errorMessage = 'could not find title input'
+    }
     res
       .status(400)
-      .render('videos/create', {title, description, error: 'could not find title input'});
+      .render('videos/create', {title, description, error: errorMessage || 'could not save video'});
   }
 
 });
