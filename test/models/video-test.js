@@ -32,6 +32,11 @@ describe('Model: Video', () => {
       });
       assert.strictEqual(video.url, urlInvalid.toString() );
     });
+    it('is required', async () => {
+      const video = await new Video({title: 'Some title'});
+      const error = video.validateSync();
+      assert.equal(error.errors.url.message, 'a URL is required');
+    });
   });
 });
 
