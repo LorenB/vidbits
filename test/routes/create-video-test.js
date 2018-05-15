@@ -35,11 +35,12 @@ describe('Server path: /videos', () => {
     });
 
     it('only save a video when a title is provided', async () => {
-      const videoDescription = 'A video about things and stuff.'
+      const videoDescription = 'A video about things and stuff.';
+      const videoUrl = 'https://example.com';
       const response = await request(app)
         .post('/videos')
         .type('form')
-        .send({description: videoDescription});
+        .send({description: videoDescription, url: videoUrl});
 
       assert.ok(response.status >= 400 && response.status < 500);
       const errorElem = jsdom(response.text).querySelector('.error-message');
@@ -48,6 +49,9 @@ describe('Server path: /videos', () => {
       assert.strictEqual(selectedElements.length, 0);
       const descriptionElem = jsdom(response.text).querySelector('#description-input');
       assert.equal(descriptionElem.value, videoDescription);
+      const urlElem = jsdom(response.text).querySelector('#url-input');
+      assert.equal(urlElem.value, videoUrl);
+
       const createdVideo = await Video.findOne({});
       assert.notOk(createdVideo);
     });
