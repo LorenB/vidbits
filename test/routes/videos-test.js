@@ -142,5 +142,31 @@ describe('Server path: /videos/:id/updates', () => {
       assert.equal(updatedVideo.description, videoUpatedDescription);
       assert.equal(updatedVideo.url, videoUpdatedUrl);
     });
+
+    it('does not update for invalid ID', async () => {
+      const videoTitle = 'Some Video';
+      const videoDescription = 'A video about things and stuff.';
+      const videoUrl = 'http://example.com';
+      const response = await request(app)
+        .post('/videos')
+        .type('form')
+        .send({title: videoTitle, description: videoDescription, url: videoUrl});
+      assert.equal(response.status, 201);
+      const createdVideo = await Video.findOne({});
+      const videoUpdatedTitle = 'Another Video';
+      const videoUpatedDescription = 'More things and stuff.';
+      const videoUpdatedUrl = 'http://example.com/update';
+
+      const updateResponse = await request(app)
+        .post(`/videos/totallyfakeid/updates`)
+        .type('form')
+        .send({title: videoUpdatedTitle, description: videoUpatedDescription, url: videoUpdatedUrl});
+
+      assert.equal(updateResponse.status, 400);
+      const videoAfterPost = await Video.findById(createdVideo._id);
+      assert.equal(videoAfterPost.title, videoTitle);
+      assert.equal(videoAfterPost.description, videoDescription);
+      assert.equal(videoAfterPost.url, videoUrl);
+    });
   });
 });
