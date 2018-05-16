@@ -66,7 +66,15 @@ router.post('/videos', async (req, res) => {
 });
 
 router.post('/videos/:videoId/updates', async (req, res) => {
-  if(req.body.title.length > 0 && req.body.url.length > 0){
+  let errServer = {};
+  if(!req.body.title || req.body.title.length === 0) {
+    errServer.title = 'Title is required';
+  }
+  if(!req.body.url || req.body.url.length === 0) {
+    errServer.url = 'URL is required';
+  }
+
+  if(Object.keys(errServer).length === 0 && errServer.constructor === Object){
     await Video.update(
       {_id: req.params.videoId},
       {
@@ -84,7 +92,16 @@ router.post('/videos/:videoId/updates', async (req, res) => {
       }
     );
   } else {
-    res.sendStatus(400);
+    res
+      .status(400)
+      .render('videos/create', {
+        video: {
+          title: req.body.title,
+          description: req.body.description,
+          url: req.body.url,
+          error: errServer.title || errServer.url
+        }
+    });
   }
 });
 
