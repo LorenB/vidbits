@@ -26,8 +26,9 @@ router.get('/videos/:videoId/edit', async (req, res) => {
   const video = await Video.findById(req.params.videoId);
   res
     .status(201)
-    .render('videos/create', {video} );
-    // .render('videos/edit', {video} );
+    .render('videos/edit', {video} );
+    // .render('videos/create', {video} );
+
 });
 
 router.post('/videos', async (req, res) => {

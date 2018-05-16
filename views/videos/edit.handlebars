@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>VidBits</title>
+    <link rel="icon" type="image/ico" href="img/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,500" rel="stylesheet">
+    <link rel='stylesheet' href='stylesheets/style.css'>
+  </head>
+
+  <body>
+    <h2>Save a video</h2>
+    <form class="input-form" action="/videos/{{video._id}}/updates" method="post">
+      <label for="title-input">Title</label>
+      <input type="text" name="title" id="title-input" value="{{video.title}}">
+      {{#if video.error}}
+      <span class="error-message">{{video.error}}</span><br>
+      {{/if}}
+      <label for="description-input">Description</label>
+      <input type="text" name="description" id="description-input" value="{{video.description}}"><br>
+      <label for="url-input">URL</label>
+      <input type="text" name="url" id="url-input" value="{{video.url}}">
+      <button type="submit" id="submit-button">
+        <p>Submit</p>
+      </button>
+    </form>
+  </body>
+
+</html>
