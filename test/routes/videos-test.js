@@ -79,3 +79,34 @@ describe('Server path: /videos', () => {
     });
   });
 });
+
+describe('Server path: /videos/:id/edit', () => {
+  beforeEach(async () => {
+    await mongoose.connect(databaseUrl, options);
+    await mongoose.connection.db.dropDatabase();
+  });
+  afterEach(async () => {
+    await mongoose.disconnect();
+  });
+
+  describe('GET', () => {
+    it('renders a form for the Video', async () => {
+      const title = 'Video A';
+      const description = 'An exhuastive history of the amaziong letter A.'
+      const url = 'http://example.com';
+      const video = await Video.create({title, description, url});
+      const response = await request(app)
+        .get(`/videos/${video._id}/edit`);
+      assert.equal(response.status, 201);
+      assert.include(response.text, video.title);
+      assert.include(response.text, video.description);
+      assert.include(response.text, video.url);
+      const descriptionElem = jsdom(response.text).querySelector('#description-input');
+      assert.equal(descriptionElem.value, video.description);
+      const titleElem = jsdom(response.text).querySelector('#title-input');
+      assert.equal(titleElem.value, video.title);
+      const urlElem = jsdom(response.text).querySelector('#url-input');
+      assert.equal(urlElem.value, video.url);
+    });
+  });
+});
