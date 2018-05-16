@@ -26,7 +26,6 @@ describe('Server path: /videos', () => {
         .type('form')
         .send({title: videoTitle, description: videoDescription, url: videoUrl});
       assert.equal(response.status, 201);
-      // TODO: confirm data is actually persisted
       const createdVideo = await Video.findOne({});
       assert.equal(createdVideo.title, videoTitle);
       assert.equal(createdVideo.description, videoDescription);
@@ -98,15 +97,49 @@ describe('Server path: /videos/:id/edit', () => {
       const response = await request(app)
         .get(`/videos/${video._id}/edit`);
       assert.equal(response.status, 201);
-      assert.include(response.text, video.title);
-      assert.include(response.text, video.description);
-      assert.include(response.text, video.url);
       const descriptionElem = jsdom(response.text).querySelector('#description-input');
       assert.equal(descriptionElem.value, video.description);
       const titleElem = jsdom(response.text).querySelector('#title-input');
       assert.equal(titleElem.value, video.title);
       const urlElem = jsdom(response.text).querySelector('#url-input');
       assert.equal(urlElem.value, video.url);
+    });
+  });
+});
+
+describe('Server path: /videos/:id/updates', () => {
+  beforeEach(async () => {
+    await mongoose.connect(databaseUrl, options);
+    await mongoose.connection.db.dropDatabase();
+  });
+  afterEach(async () => {
+    await mongoose.disconnect();
+  });
+
+  describe('POST', () => {
+    it('updates and existing video', async () => {
+      const videoTitle = 'Some Video';
+      const videoDescription = 'A video about things and stuff.';
+      const videoUrl = 'http://example.com';
+      const response = await request(app)
+        .post('/videos')
+        .type('form')
+        .send({title: videoTitle, description: videoDescription, url: videoUrl});
+      assert.equal(response.status, 201);
+      const createdVideo = await Video.findOne({});
+      const videoUpdatedTitle = 'Another Video';
+      const videoUpatedDescription = 'More things and stuff.';
+      const videoUpdatedUrl = 'http://example.com/update';
+
+      const updateResponse = await request(app)
+        .post(`/videos/${createdVideo._id}/updates`)
+        .type('form')
+        .send({title: videoUpdatedTitle, description: videoUpatedDescription, url: videoUpdatedUrl});
+      assert.equal(updateResponse.status, 200);
+      const updatedVideo = await Video.findById(createdVideo._id);
+      assert.equal(updatedVideo.title, videoUpdatedTitle);
+      assert.equal(updatedVideo.description, videoUpatedDescription);
+      assert.equal(updatedVideo.url, videoUpdatedUrl);
     });
   });
 });
