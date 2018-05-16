@@ -75,10 +75,8 @@ router.post('/videos/:videoId/updates', async (req, res) => {
       url: req.body.url
     }
   );
-  res.send();
-  // const videoId = req.params.videoId;
-  // res
-  //   .redirect(`/videos/${videoId}`);
+  res
+    .redirect(`/videos/${req.params.videoId}`);
 });
 
 module.exports = router;
