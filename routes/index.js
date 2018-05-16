@@ -22,6 +22,13 @@ router.get('/videos/:videoId', async (req, res) => {
     .render('videos/show', {video} );
 });
 
+router.get('/videos/:videoId/edit', async (req, res) => {
+  const video = await Video.findById(req.params.videoId);
+  res
+    .status(201)
+    .render('videos/create', {video} );
+});
+
 router.post('/videos', async (req, res) => {
   const video = new Video({
     title: req.body.title,
