@@ -27,8 +27,6 @@ router.get('/videos/:videoId/edit', async (req, res) => {
   res
     .status(201)
     .render('videos/edit', {video} );
-    // .render('videos/create', {video} );
-
 });
 
 router.post('/videos', async (req, res) => {
@@ -68,22 +66,26 @@ router.post('/videos', async (req, res) => {
 });
 
 router.post('/videos/:videoId/updates', async (req, res) => {
-  await Video.update(
-    {_id: req.params.videoId},
-    {
-      title: req.body.title,
-      description: req.body.description,
-      url: req.body.url
-    },
-    (err, video) => {
-      if(err) {
-        res.sendStatus(400)
-      } else {
-        res
-          .redirect(`/videos/${req.params.videoId}`);
+  if(req.body.title.length > 0 && req.body.url.length > 0){
+    await Video.update(
+      {_id: req.params.videoId},
+      {
+        title: req.body.title,
+        description: req.body.description,
+        url: req.body.url
+      },
+      (err, video) => {
+        if(err) {
+          res.sendStatus(400);
+        } else {
+          res
+            .redirect(`/videos/${req.params.videoId}`);
+        }
       }
-    }
-  );
+    );
+  } else {
+    res.sendStatus(400);
+  }
 });
 
 module.exports = router;
