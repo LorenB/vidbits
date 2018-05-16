@@ -193,6 +193,12 @@ describe('Server path: /videos/:id/updates', () => {
       assert.equal(videoAfterPost.title, videoTitle);
       assert.equal(videoAfterPost.description, videoDescription);
       assert.equal(videoAfterPost.url, videoUrl);
+
+      const descriptionElem = jsdom(updateResponse.text).querySelector('#description-input');
+      assert.equal(descriptionElem.value, videoUpatedDescription);
+      const urlElem = jsdom(updateResponse.text).querySelector('#url-input');
+      assert.equal(urlElem.value, videoUpdatedUrl);
+
     });
   });
 });
