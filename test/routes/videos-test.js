@@ -135,7 +135,8 @@ describe('Server path: /videos/:id/updates', () => {
         .post(`/videos/${createdVideo._id}/updates`)
         .type('form')
         .send({title: videoUpdatedTitle, description: videoUpatedDescription, url: videoUpdatedUrl});
-      assert.equal(updateResponse.status, 200);
+      assert.equal(updateResponse.status, 302);
+      assert.equal(updateResponse.headers.location, `/videos/${createdVideo._id}`);
       const updatedVideo = await Video.findById(createdVideo._id);
       assert.equal(updatedVideo.title, videoUpdatedTitle);
       assert.equal(updatedVideo.description, videoUpatedDescription);
