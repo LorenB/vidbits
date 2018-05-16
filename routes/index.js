@@ -73,10 +73,16 @@ router.post('/videos/:videoId/updates', async (req, res) => {
       title: req.body.title,
       description: req.body.description,
       url: req.body.url
+    },
+    (err, video) => {
+      if(err) {
+        res.sendStatus(400)
+      } else {
+        res
+          .redirect(`/videos/${req.params.videoId}`);
+      }
     }
   );
-  res
-    .redirect(`/videos/${req.params.videoId}`);
 });
 
 module.exports = router;
