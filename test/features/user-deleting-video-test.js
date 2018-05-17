@@ -13,7 +13,8 @@ describe('User deletes video', () => {
       await browser.setValue('#url-input', videoUrl);
       await browser.click('#submit-button');
       await browser.click('#delete');
-      await browser.url('/videos');
+      const urlAfterDelete = await browser.getUrl();
+      assert.include(urlAfterDelete, '/videos');
       const body = await browser.getText('body');
       assert.notInclude(body, videoTitle);
       assert.notInclude(body, videoDescription);
