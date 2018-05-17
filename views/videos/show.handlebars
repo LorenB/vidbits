@@ -11,7 +11,8 @@
     <p class='single-video-url'>Url: {{video.url}}</p>
   </div>
 </div>
-<form action="/videos/{{video._id}}/edit">
-    <input id="edit" type="submit" value="Edit" />
+<form>
+    <input id="edit" type="submit" value="Edit" formmethod="GET" formaction="/videos/{{video._id}}/edit"/>
+    <input id="delete" type="submit" value="Delete" formmethod="POST" formaction="/videos/{{video._id}}/deletions"/>
 </form>
 {{/with}}
