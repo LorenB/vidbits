@@ -202,3 +202,33 @@ describe('Server path: /videos/:id/updates', () => {
     });
   });
 });
+
+describe('Server path: /videos/:id/deletions', () => {
+  beforeEach(async () => {
+    await mongoose.connect(databaseUrl, options);
+    await mongoose.connection.db.dropDatabase();
+  });
+  afterEach(async () => {
+    await mongoose.disconnect();
+  });
+
+  describe('POST', () => {
+    it('updates and existing video', async () => {
+      const videoTitle = 'Some Video';
+      const videoDescription = 'A video about things and stuff.';
+      const videoUrl = 'http://example.com';
+      const response = await request(app)
+        .post('/videos')
+        .type('form')
+        .send({title: videoTitle, description: videoDescription, url: videoUrl});
+      assert.equal(response.status, 201);
+      const createdVideo = await Video.findOne({});
+      const deleteResponse = await request(app)
+        .post(`/videos/${createdVideo._id}/deletions`)
+        .type('form')
+      const remainingVideos = await Video.find();
+      assert.equal(remainingVideos.length, 0);
+    });
+  });
+
+});
