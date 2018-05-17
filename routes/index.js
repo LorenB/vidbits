@@ -105,4 +105,11 @@ router.post('/videos/:videoId/updates', async (req, res) => {
   }
 });
 
+router.post('/videos/:videoId/deletions', async (req, res) => {
+  await Video.remove({_id: req.params.videoId}, () => {
+    res
+      .sendStatus(201);
+  });
+});
+
 module.exports = router;
