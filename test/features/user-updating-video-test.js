@@ -1,6 +1,5 @@
 const {assert} = require('chai');
 const {connectDatabase, disconnectDatabase} = require('../database-utilities');
-const Video = require('../../models/video');
 
 describe('User creates video', () => {
   beforeEach(connectDatabase);
@@ -25,9 +24,11 @@ describe('User creates video', () => {
 
     it('no new video entry is created', async () => {
       browser.url('/videos/create');
-      const videoTitle = 'Pretty good video';
-      const videoDescription = 'Sufficiently good.';
-      const videoUrl = 'http://example.com/ok';
+      const randomNum = Math.random();
+      const videoTitle = `Random video number ${randomNum}`;
+      const videoDescription = `Pretty random ${randomNum}`;
+      const videoUrl = `http://example.com/${randomNum}`;
+
       browser.setValue('#title-input', videoTitle);
       browser.setValue('#description-input', videoDescription);
       browser.setValue('#url-input', videoUrl);
@@ -49,9 +50,13 @@ describe('User creates video', () => {
       assert.include(browserUrlAfterEdit, vidoeId);
       const titleElem = await browser.getText('.single-video-title');
       assert.include(titleElem, videoTitleUpdated);
+      await browser.url('/videos');
 
-      const videos = await Video.find();
-      assert.equal(videos.length, 1);
+      const body = await browser.getText('body');
+      assert.notInclude(body, videoTitle);
+      assert.notInclude(body, videoDescription);
+      assert.notInclude(body, videoUrl);
+
     });
   });
 });
