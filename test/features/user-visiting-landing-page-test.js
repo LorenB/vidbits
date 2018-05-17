@@ -43,8 +43,8 @@ describe('User visits landing page', () => {
       const video = await Video.create({title, description, url});
       browser.url('/videos');
       const linkElems = browser.elements(`a`);
-      await browser.click(`a[href="videos/${video._id}"]`);
-      assert.include(await browser.getUrl(), `videos/${video._id}`);
+      await browser.click(`a[href="/videos/${video._id}"]`);
+      assert.include(await browser.getUrl(), `/videos/${video._id}`);
       const titleElem = await browser.getText('.single-video-title');
       assert.include(JSON.stringify(titleElem), title);
       await browser.click('.title-logo a');
