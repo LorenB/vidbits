@@ -40,11 +40,11 @@ router.post('/videos', async (req, res) => {
       .status(201)
       .render('videos/show', {video});
   } else {
-    if(!!error && !!error.errors) {
-      if(!!error.errors.title) {
+    if(error && error.errors) {
+      if(error.errors.title) {
         errorMessage = 'could not find title input';
       }
-      if(!!error.errors.url) {
+      if(error.errors.url) {
         errorMessage = 'a URL is required';
       }
     }
