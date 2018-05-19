@@ -30,11 +30,8 @@ router.get('/videos/:videoId/edit', async (req, res) => {
 });
 
 router.post('/videos', async (req, res) => {
-  const video = new Video({
-    title: req.body.title,
-    description: req.body.description,
-    url: req.body.url
-  });
+  const { title, description, url } = req.body;
+  const video = new Video({ title, description, url });
   const error = video.validateSync();
   let errorMessage = 'could not save video';
   if(!error) {
