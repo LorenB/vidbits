@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const Video = require('../models/video');
 
-router.get('/', async (req, res) => {
+router.get('/', (req, res) => {
   res.redirect('/videos');
 });
 
